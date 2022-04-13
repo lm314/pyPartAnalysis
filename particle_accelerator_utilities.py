@@ -17,8 +17,6 @@ import numpy as np
 
 def gammabeta2gamma(GBx,GBy,GBz):
     """Computes the Lorentz Parameter from the normalized momentum
-
-    sdfjdf
         
     Parameters
     ----------
