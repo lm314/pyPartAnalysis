@@ -33,7 +33,7 @@ get_poly_fit(df,dim,deg,cut_off)
 filter_by_counts(df,column,bins,cutoff)
 get_twiss_z_slices(df,bins)
 make_sigma_mat(alpha,beta)
-calculate_beta_mismatch(sigma,sigma0)
+calculate_twiss_mismatch(sigma,sigma0)
 print_twiss(df,kinetic_energy)
 twiss_ellipse(alpha,beta,emit,xy=[0,0],scalex=0,scaley=0,**ell_kwargs)
 twiss_ellipse_parametric(alpha,beta,emit,num_points=100,xy=[0,0])
@@ -1304,20 +1304,29 @@ def make_sigma_mat(alpha,beta):
     
     return sigmax,sigmay,sigmaz
 
-def calculate_beta_mismatch(sigma,sigma0):
-    """Calulates the beta mismatch
+def calculate_twiss_mismatch(sigma,sigma0):
+    """Calulates the mismatch of the Twiss parameters.
+        
+        Note that the inputs are the sigma matrix, which has the form:
+        sigma[1,1] = beta
+        sigma[1,2] = -alpha
+        sigma[2,1] = -alpha
+        sigma[2,2] = gamma
+        
+        The mismatch parameter is greater than or equal to 1, with a 
+        perfect match giving 1.
         
     Parameters
     ----------
     sigma : ndarray, shape=(2,2)
-        Sigma Matrix of the final distribution
+        Measured sigma matrix
     sigma_0 : ndarray, shape=(2,2)
-        Sigma Matrix of the Initial distribution
+        Design sigma matrix
         
     Returns
     -------
     float
-        Beta mismatch
+        Twiss mismatch
     """
     
     bmag = []
@@ -1523,6 +1532,41 @@ def get_phase_advance(df_norm,dims = ['x','y','z']):
                                df_copy.loc[:,dim_dict[dim][0]])
     
     return pd.DataFrame(deg, columns = dims)
+
+def binning(df,dim,num_bin):
+    """Bins Dataframe based on column
+    
+    Adds a column to the dataframe named "bin_" plus 
+    the specified column.
+                     
+    Parameters
+    ----------
+    df : DataFrame
+        Arbitrary dataframe
+    dim: str
+        Column of df along which binning will occur
+    num_bin : int
+        Number of bins to divide along
+        
+    Returns
+    -------
+    DataFrame
+        Copy of the initial dataframe with an additional 
+        column for the binning names "bin_" plus 
+        the specified column.
+    """
+    
+    df_copy = df.copy()
+
+    labels = np.arange(0, num_bin)
+    bin_name = "bin_" + dim;
+    
+    minVal = df_copy[dim].min(axis=0)
+    maxVal = df_copy[dim].max(axis=0)
+    bins = np.linspace(minVal,maxVal,num_bin+1)
+    df_copy[bin_name] = pd.cut(df_copy[dim], bins=bins, labels=labels, include_lowest=True)
+    
+    return df_copy
 
 if __name__ == '__main__':
     pass
