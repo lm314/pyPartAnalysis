@@ -10,4 +10,4 @@ Works with the default NERSC python module as of June 5th, 2022.
 
 ## Example Use Case for ImpactT
 
-An example jupyter notebook using ImpactT output files can by found in [here](Examples/Example_ImpactT.ipynb). The textfiles output by ImpactT are read in and information about the particle distributions is examined.
+An example Jupyter notebook using ImpactT output files can by found [here](Examples/Example_ImpactT.ipynb). The textfiles output by ImpactT are read in and information about the particle distributions is examined.
