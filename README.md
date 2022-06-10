@@ -13,8 +13,8 @@ Works with the default NERSC python module as of June 5th, 2022.
 To make the `pyPartAnalysis` module available on the Python and Jupyter path, add the following lines to the `.bashrc` file in the home directory:
 
 ```bash
-export PYTHONPATH='/global/homes/l/username/pyPartAnalysis'
-export JUPYTER_PATH='/global/homes/l/username/pyPartAnalysis'
+export PYTHONPATH='/global/homes/firstletterofusername/username/pyPartAnalysis'
+export JUPYTER_PATH='/global/homes/firstletterofusername/username/pyPartAnalysis'
 ```
 
 Note that we assume that the directory is in the home directory of 'username', where username is replaced with your name; though the path can be to wherever the module is eventually stored.
